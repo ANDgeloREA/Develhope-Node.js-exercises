@@ -5,15 +5,15 @@ import { getAll, getOneById, create, updateById, deleteById, createImage } from 
 import multer from "multer";
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './uploads');
-    },
-    filename: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  });
-  
-  const upload = multer({ storage });
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 const app = express();
 const port = 3000;
@@ -35,5 +35,5 @@ app.delete("/api/planets/:id", deleteById);
 app.post("/api/planets/:id/image", upload.single("image"), createImage);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`);
+  console.log(`Example app listening on port http://localhost:${port}`);
 });
