@@ -28,7 +28,7 @@ const logIn = async (req: Request, res: Response) => {
 const signUp = async (req: Request, res: Response) => {
     const { username, password } = req.body;
     const user = await db.oneOrNone(`SELECT * FROM users WHERE username=$1`, username);
-    
+
     if (user) {
         res.status(409).json({ msg: "Username already in use!" });
     } else {
@@ -37,4 +37,10 @@ const signUp = async (req: Request, res: Response) => {
     };
 };
 
-export { logIn, signUp }
+const logOut = async (req: Request, res: Response) => {
+    const user: any = req.user;
+    await db.none(`UPDATE users SET token=$2 WHERE id=$1`, [user?.id, null]);
+    res.status(200).json({ msg: "Logout successful!" })
+};
+
+export { logIn, signUp, logOut };
